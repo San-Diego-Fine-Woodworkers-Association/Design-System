@@ -5,5 +5,6 @@ export { FieldError, type FieldErrorProps } from "./FieldError.js";
 export { Form, type FormProps } from "./Form.js";
 export { Input, type InputProps } from "./Input.js";
 export { Label, type LabelProps } from "./Label.js";
+export { Modal, ModalOverlay, type ModalOverlayProps } from "./Modal.js";
 export { Popover, type PopoverProps } from "./Popover.js";
 export { TextField, type TextFieldProps } from "./TextField.js";

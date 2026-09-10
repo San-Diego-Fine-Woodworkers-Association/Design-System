@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DialogTrigger, Heading, Text } from "react-aria-components";
 import { Button } from "./Button.js";
 import { Dialog } from "./Dialog.js";
+import { Modal, ModalOverlay } from "./Modal.js";
 import { Popover } from "./Popover.js";
 
 const meta: Meta<typeof Dialog> = {
@@ -13,7 +14,7 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
-function DialogContent() {
+function ConfirmDeleteContent() {
   return (
     <Dialog>
       <Heading slot="title" style={{ fontWeight: 600 }}>
@@ -32,13 +33,43 @@ function DialogContent() {
   );
 }
 
-/** Uses the Theme/Context toolbar controls (set up in SDF-23). */
+/**
+ * Destructive confirmations belong in the centered, backdropped Modal
+ * composition (SDF-29), not Popover — a positioned, backdrop-less overlay
+ * is the wrong shell for an action this consequential. Uses the
+ * Theme/Context toolbar controls (set up in SDF-23).
+ */
 export const Playground: Story = {
   render: () => (
     <DialogTrigger>
       <Button variant="destructive">Delete…</Button>
+      <ModalOverlay>
+        <Modal>
+          <ConfirmDeleteContent />
+        </Modal>
+      </ModalOverlay>
+    </DialogTrigger>
+  ),
+};
+
+/**
+ * Dialog is also independent of Popover vs. Modal (SDF-17) — the same
+ * component composes into a non-modal, positioned overlay for lighter-
+ * weight content that doesn't need to block the whole page.
+ */
+export const PopoverComposition: Story = {
+  render: () => (
+    <DialogTrigger>
+      <Button>Rename…</Button>
       <Popover>
-        <DialogContent />
+        <Dialog>
+          <Heading slot="title" style={{ fontWeight: 600 }}>
+            Rename file
+          </Heading>
+          <Button slot="close" variant="quiet">
+            Done
+          </Button>
+        </Dialog>
       </Popover>
     </DialogTrigger>
   ),
@@ -58,8 +89,8 @@ function ThemedCell({
   theme: "light" | "dark";
   context: "app" | "content";
 }) {
-  // See the theming note on Popover.tsx: overlays portal outside a themed
-  // div by default, so each demo needs its own portal container.
+  // See the theming note on Popover.tsx/Modal.tsx: overlays portal outside
+  // a themed div by default, so each demo needs its own portal container.
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
   return (
@@ -78,9 +109,11 @@ function ThemedCell({
       </p>
       <DialogTrigger>
         <Button variant="destructive">Delete…</Button>
-        <Popover UNSTABLE_portalContainer={container ?? undefined}>
-          <DialogContent />
-        </Popover>
+        <ModalOverlay UNSTABLE_portalContainer={container ?? undefined}>
+          <Modal>
+            <ConfirmDeleteContent />
+          </Modal>
+        </ModalOverlay>
       </DialogTrigger>
     </div>
   );
