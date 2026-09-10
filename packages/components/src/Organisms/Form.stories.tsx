@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button } from "./Button.js";
-import { Description } from "./Description.js";
-import { FieldError } from "./FieldError.js";
+import { Button } from "../Atoms/Button.js";
+import { Description } from "../Atoms/Description.js";
+import { FieldError } from "../Atoms/FieldError.js";
+import { Input } from "../Atoms/Input.js";
+import { Label } from "../Atoms/Label.js";
+import { TextField } from "../Molecules/TextField.js";
 import { Form } from "./Form.js";
-import { Input } from "./Input.js";
-import { Label } from "./Label.js";
-import { TextField } from "./TextField.js";
 
 const meta: Meta<typeof Form> = {
-  title: "Form",
   component: Form,
 };
 

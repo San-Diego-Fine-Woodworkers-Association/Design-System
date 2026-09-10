@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button, type ButtonVariant } from "./Button.js";
 
 const meta: Meta<typeof Button> = {
-  title: "Button",
   component: Button,
   args: {
     children: "Button",

@@ -7,7 +7,6 @@ import { Modal, ModalOverlay } from "./Modal.js";
 import { Popover } from "./Popover.js";
 
 const meta: Meta<typeof Dialog> = {
-  title: "Dialog",
   component: Dialog,
 };
 

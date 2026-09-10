@@ -5,7 +5,6 @@ import { Button } from "./Button.js";
 import { Modal, ModalOverlay } from "./Modal.js";
 
 const meta: Meta<typeof Modal> = {
-  title: "Modal",
   component: Modal,
 };
 

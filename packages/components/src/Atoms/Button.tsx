@@ -2,7 +2,7 @@ import {
   Button as RACButton,
   type ButtonProps as RACButtonProps,
 } from "react-aria-components";
-import { composeTailwindRenderProps } from "./utils/composeTailwindRenderProps.js";
+import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
 
 export type ButtonVariant = "primary" | "secondary" | "destructive" | "quiet";
 

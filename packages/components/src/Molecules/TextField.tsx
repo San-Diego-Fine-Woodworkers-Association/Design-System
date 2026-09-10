@@ -2,7 +2,7 @@ import {
   TextField as RACTextField,
   type TextFieldProps as RACTextFieldProps,
 } from "react-aria-components";
-import { composeTailwindRenderProps } from "./utils/composeTailwindRenderProps.js";
+import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
 
 export interface TextFieldProps extends RACTextFieldProps {}
 

@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Description } from "./Description.js";
-import { FieldError } from "./FieldError.js";
-import { Input } from "./Input.js";
-import { Label } from "./Label.js";
+import { Description } from "../Atoms/Description.js";
+import { FieldError } from "../Atoms/FieldError.js";
+import { Input } from "../Atoms/Input.js";
+import { Label } from "../Atoms/Label.js";
 import { TextField } from "./TextField.js";
 
 const meta: Meta<typeof TextField> = {
-  title: "TextField",
   component: TextField,
 };
 

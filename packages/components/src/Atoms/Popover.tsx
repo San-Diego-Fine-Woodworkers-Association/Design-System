@@ -2,7 +2,7 @@ import {
   Popover as RACPopover,
   type PopoverProps as RACPopoverProps,
 } from "react-aria-components";
-import { composeTailwindRenderProps } from "./utils/composeTailwindRenderProps.js";
+import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
 
 export interface PopoverProps extends RACPopoverProps {}
 

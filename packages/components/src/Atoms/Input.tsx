@@ -2,7 +2,7 @@ import {
   Input as RACInput,
   type InputProps as RACInputProps,
 } from "react-aria-components";
-import { composeTailwindRenderProps } from "./utils/composeTailwindRenderProps.js";
+import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
 
 export interface InputProps extends RACInputProps {}
 

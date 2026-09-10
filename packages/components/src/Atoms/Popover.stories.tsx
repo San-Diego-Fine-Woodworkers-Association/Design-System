@@ -5,7 +5,6 @@ import { Button } from "./Button.js";
 import { Popover } from "./Popover.js";
 
 const meta: Meta<typeof Popover> = {
-  title: "Popover",
   component: Popover,
 };
 
