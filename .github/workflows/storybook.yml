@@ -23,6 +23,8 @@ jobs:
         with:
           bun-version: "1.3.9"
       - run: bun install --frozen-lockfile
+      - run: bun run build
+        working-directory: packages/tokens
       - run: bun run build-storybook
         working-directory: packages/components
       - uses: actions/configure-pages@v6
