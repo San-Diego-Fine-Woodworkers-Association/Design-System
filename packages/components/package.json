@@ -1,0 +1,9 @@
+{
+  "name": "@sdwa/components",
+  "version": "0.1.0",
+  "type": "module",
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}
