@@ -1,5 +1,11 @@
 {
   "name": "@sdwa/lint-config",
   "version": "0.1.0",
-  "type": "module"
+  "type": "module",
+  "exports": {
+    "./biome": "./biome.json"
+  },
+  "files": [
+    "biome.json"
+  ]
 }
