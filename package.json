@@ -12,10 +12,15 @@
   },
   "scripts": {
     "lint": "biome check --write",
-    "lint:ci": "biome ci"
+    "lint:ci": "biome ci",
+    "build": "bun run --workspaces build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "bun run build && changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.12",
+    "@changesets/cli": "3.0.2",
     "@sdwa/lint-config": "workspace:*"
   }
 }

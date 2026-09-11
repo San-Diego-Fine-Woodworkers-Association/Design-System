@@ -11,19 +11,33 @@ For how to add a changeset to your own PR, see [`CONTRIBUTING.md`](./CONTRIBUTIN
 
 ## How a release happens
 
+The whole flow lives in one workflow, [`.github/workflows/release.yml`](./.github/workflows/release.yml),
+built from [`changesets/action`](https://github.com/changesets/action)'s dedicated sub-actions
+(not the combined action) so that each job carries the minimum permissions it needs.
+
 1. A PR that changes a package's behavior includes a changeset file (see `CONTRIBUTING.md`).
-2. Merging that PR to `main` triggers the release workflow. If there are pending changesets, the
-   workflow opens (or updates) a standing **"Version Packages"** pull request: a bot-authored PR
-   that bumps the affected packages' versions, writes their `CHANGELOG.md` entries, and removes
-   the consumed changeset files. This PR accumulates every pending changeset — it does not publish
-   anything by itself.
-3. When a maintainer merges the Version Packages PR, the release workflow runs again. This time,
-   because the changesets have already been consumed, it runs the actual `npm publish` step for
-   every package whose version changed.
-4. The publish step requires a maintainer to approve it via a GitHub Actions **environment**
-   protection rule before it runs. Merging the Version Packages PR prepares the release; it does
-   not, by itself, make anything public. A maintainer gets a notification to review and approve
-   the pending deployment, and only then does `npm publish` actually run.
+2. Every push to `main` runs a `select-mode` job first, which inspects repo state and decides
+   whether the workflow should version, publish, or do nothing this run.
+3. **If there are pending changesets** (mode `version`): the `version` job opens or updates a
+   standing **"Version Packages"** pull request — bumping the affected packages' versions, writing
+   their `CHANGELOG.md` entries, and removing the consumed changeset files. This PR accumulates
+   every pending changeset. This job only needs `contents: write`/`pull-requests: write` — no
+   registry access, no approval gate.
+4. **When a maintainer merges the Version Packages PR** (mode `publish`, since the changesets are
+   now consumed and package versions no longer match what's on npm): the `pack` job builds every
+   package and tars up the ones whose version changed, with no registry access at all. Its output
+   artifact is handed to the `publish` job.
+5. The `publish` job is gated behind the **`npm-publish`** GitHub Actions environment, which
+   requires a maintainer's manual approval before it runs. Merging the Version Packages PR prepares
+   the release; it does not, by itself, make anything public. A maintainer gets a notification to
+   review and approve the pending deployment, and only then does `npm publish` actually run,
+   authenticating via OIDC (see Authentication below).
+
+> **Setup note:** the `npm-publish` environment and its required-reviewer rule must be created once
+> in the repo's Settings → Environments — this is a repo-settings action a maintainer has to do by
+> hand; it can't be scripted from outside GitHub's own permission model. Until it exists, GitHub
+> auto-creates an unprotected environment on first use, which means the gate does nothing — confirm
+> required reviewers are actually configured before relying on it.
 
 ## Versioning
 
@@ -50,9 +64,10 @@ package has ever been published before.
    `@sdwa` is a public scope) from each package's directory, once. No npm token is ever added as a
    GitHub Actions secret for this step.
 2. **Ongoing, after bootstrap**: once a package exists, a maintainer configures a **trusted
-   publisher** for it on that package's npmjs.com Settings page — GitHub org/repo, the publish
-   workflow's filename, no stored secret. The GitHub Actions job authenticates via its own OIDC
-   identity (`permissions: id-token: write`); npm verifies it against the configured trusted
+   publisher** for it on that package's npmjs.com Settings page: repository
+   `San-Diego-Fine-Woodworkers-Association/Design-System`, workflow filename
+   `.github/workflows/release.yml`, no stored secret. The `publish` job authenticates via its own
+   OIDC identity (`permissions: id-token: write`); npm verifies it against the configured trusted
    publisher and issues a short-lived credential for that one publish. This must be configured
    **separately for each of the three packages** — trusted publishing is linked per package name,
    not per repository.
