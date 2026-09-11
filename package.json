@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/San-Diego-Fine-Woodworkers-Association/Design-System.git"
+  },
   "workspaces": [
     "packages/*"
   ],
