@@ -91,6 +91,10 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+      # setup-node's bundled npm doesn't meet trusted publishing's >= 11.5.1 floor
+      # (Node 22's bundled npm is 10.x) — without this, publish runs unauthenticated
+      # and npm returns a generic 404 instead of a clear auth error.
+      - run: npm install -g npm@12.0.2
       - uses: changesets/action/publish@v2.1.2
         with:
           pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
