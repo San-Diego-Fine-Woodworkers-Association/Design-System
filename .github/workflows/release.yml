@@ -74,6 +74,7 @@ jobs:
   # The actual npm publish. Gated behind the "npm-publish" GitHub Actions environment,
   # which requires a maintainer's manual approval before this job runs (see PUBLISHING.md).
   # Authenticates via npm trusted publishing (OIDC) — id-token: write, no stored secret.
+  # contents: write is for the follow-up git tag + GitHub release, not npm auth.
   publish:
     needs: [select-mode, pack]
     if: needs.select-mode.outputs.mode == 'publish'
@@ -81,6 +82,7 @@ jobs:
     environment: npm-publish
     permissions:
       id-token: write
+      contents: write
     steps:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
