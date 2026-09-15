@@ -20,6 +20,14 @@ export {
   type CardContentProps,
   type CardProps,
 } from "./Molecules/Card.js";
+export {
+  Collapsible,
+  CollapsibleContent,
+  type CollapsibleContentProps,
+  type CollapsibleProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+} from "./Molecules/Collapsible.js";
 export { FieldGroup, type FieldGroupProps } from "./Molecules/FieldGroup.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
