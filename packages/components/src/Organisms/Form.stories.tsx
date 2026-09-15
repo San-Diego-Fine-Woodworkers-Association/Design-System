@@ -4,6 +4,8 @@ import { Description } from "../Atoms/Description.js";
 import { FieldError } from "../Atoms/FieldError.js";
 import { Input } from "../Atoms/Input.js";
 import { Label } from "../Atoms/Label.js";
+import { Card, CardContent } from "../Molecules/Card.js";
+import { FieldGroup } from "../Molecules/FieldGroup.js";
 import { TextField } from "../Molecules/TextField.js";
 import { Form } from "./Form.js";
 
@@ -40,6 +42,42 @@ function FormDemo() {
 /** Uses the Theme/Context toolbar controls (set up in SDF-23). */
 export const Playground: Story = {
   render: () => <FormDemo />,
+};
+
+/**
+ * Rehearsal composition (SDF-44): Card/CardContent, FieldGroup, and Button
+ * arranged inside a Form to see how the organism and the newer molecules
+ * fit together. Not a shipped `Login` component and not a pixel-for-pixel
+ * replica of apps/auth's real login form — just proof the pieces compose.
+ */
+export const Login: Story = {
+  render: () => (
+    <Card style={{ maxWidth: "24rem" }}>
+      <CardContent>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+          style={{ gap: "1.5rem" }}
+        >
+          <h2 style={{ margin: 0, fontSize: "1.25rem" }}>Log in</h2>
+          <FieldGroup
+            label="Email"
+            name="email"
+            isRequired
+            inputProps={{ type: "email", placeholder: "you@example.com" }}
+          />
+          <FieldGroup
+            label="Password"
+            name="password"
+            isRequired
+            inputProps={{ type: "password" }}
+          />
+          <Button type="submit">Log in</Button>
+        </Form>
+      </CardContent>
+    </Card>
+  ),
 };
 
 const combinations = [
