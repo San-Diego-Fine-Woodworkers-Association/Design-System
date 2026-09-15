@@ -53,7 +53,8 @@ const preview: Preview = {
         <div
           data-theme={theme}
           data-context={dsContext}
-          style={{ padding: "1rem" }}
+          className="bg-background text-foreground"
+          style={{ padding: "1rem", minHeight: "100vh" }}
         >
           <Story />
         </div>
