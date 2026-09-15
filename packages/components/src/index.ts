@@ -35,4 +35,5 @@ export {
   type NotificationVariant,
 } from "./Molecules/Notification.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
+export { AppLayout, type AppLayoutProps } from "./Organisms/AppLayout.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
