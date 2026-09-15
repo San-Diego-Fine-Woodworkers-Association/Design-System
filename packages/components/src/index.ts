@@ -15,4 +15,5 @@ export {
 } from "./Atoms/Modal.js";
 export { Popover, type PopoverProps } from "./Atoms/Popover.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
+export { AppLayout, type AppLayoutProps } from "./Organisms/AppLayout.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
