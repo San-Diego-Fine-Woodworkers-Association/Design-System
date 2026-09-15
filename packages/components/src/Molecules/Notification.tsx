@@ -23,16 +23,16 @@ const base = "relative flex flex-col gap-2 rounded-md border p-3 text-sm";
 
 const variantStyles: Record<NotificationVariant, string> = {
   error: "border-destructive/30 bg-destructive/10 text-foreground",
-  success: "border-secondary/30 bg-secondary/10 text-foreground",
-  info: "border-primary/30 bg-primary/10 text-foreground",
-  warning: "border-accent/50 bg-accent/20 text-foreground",
+  success: "border-success/40 bg-success/15 text-foreground",
+  info: "border-info/40 bg-info/15 text-foreground",
+  warning: "border-warning/40 bg-warning/15 text-foreground",
 };
 
 const iconColor: Record<NotificationVariant, string> = {
   error: "text-destructive",
-  success: "text-secondary",
-  info: "text-primary",
-  warning: "text-accent-foreground",
+  success: "text-success",
+  info: "text-info",
+  warning: "text-warning",
 };
 
 function VariantIcon({ variant }: { variant: NotificationVariant }) {

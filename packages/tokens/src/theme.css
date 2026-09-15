@@ -20,6 +20,21 @@
   --accent-foreground: oklch(0.2435 0 0);
   --destructive: oklch(0.6271 0.1936 33.339);
   --destructive-foreground: oklch(1 0 0);
+  /*
+   * Notification-only colors (SDF-53 follow-up). Dedicated rather than
+   * reusing primary/secondary/accent: those shift hue/chroma per-theme for
+   * button/surface purposes unrelated to status signaling — --accent in
+   * particular has zero chroma in dark mode, which is why "warning" used to
+   * render as plain grey there. Each keeps a consistent hue between light
+   * and dark, only lightness/chroma tuned per theme, so bg-{variant}/NN
+   * tints stay identifiable and accessible in both.
+   */
+  --warning: oklch(0.5734 0.1398 78.2919);
+  --warning-foreground: oklch(1 0 0);
+  --success: oklch(0.4853 0.1041 145.8891);
+  --success-foreground: oklch(1 0 0);
+  --info: oklch(0.451 0.1577 259.8102);
+  --info-foreground: oklch(1 0 0);
   --border: oklch(0.8822 0 0);
   --input: oklch(0.8822 0 0);
   --ring: oklch(0.4341 0.0392 41.9938);
@@ -77,6 +92,12 @@
   --accent-foreground: oklch(0.9491 0 0);
   --destructive: oklch(0.6271 0.1936 33.339);
   --destructive-foreground: oklch(1 0 0);
+  --warning: oklch(0.8438 0.1585 84.3);
+  --warning-foreground: oklch(0.1735 0 0);
+  --success: oklch(0.7345 0.1548 145.8891);
+  --success-foreground: oklch(0.1508 0 0);
+  --info: oklch(0.7183 0.1276 254.6);
+  --info-foreground: oklch(0.1476 0 0);
   --border: oklch(0.2351 0.0115 91.7467);
   --input: oklch(0.4017 0 0);
   --ring: oklch(0.9247 0.0524 66.1732);
@@ -128,6 +149,12 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
