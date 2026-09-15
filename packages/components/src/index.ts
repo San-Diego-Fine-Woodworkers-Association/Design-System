@@ -14,5 +14,13 @@ export {
   type ModalOverlayProps,
 } from "./Atoms/Modal.js";
 export { Popover, type PopoverProps } from "./Atoms/Popover.js";
+export {
+  Collapsible,
+  CollapsibleContent,
+  type CollapsibleContentProps,
+  type CollapsibleProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+} from "./Molecules/Collapsible.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
