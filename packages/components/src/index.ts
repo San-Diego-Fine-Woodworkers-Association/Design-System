@@ -14,5 +14,6 @@ export {
   type ModalOverlayProps,
 } from "./Atoms/Modal.js";
 export { Popover, type PopoverProps } from "./Atoms/Popover.js";
+export { FieldGroup, type FieldGroupProps } from "./Molecules/FieldGroup.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
