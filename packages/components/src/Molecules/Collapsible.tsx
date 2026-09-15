@@ -44,9 +44,7 @@ export interface CollapsibleTriggerProps extends Omit<ButtonProps, "children"> {
   children?: ReactNode;
 }
 
-const triggerBase =
-  "inline-flex w-fit items-center gap-1 text-sm font-medium " +
-  "data-[hovered]:underline underline-offset-4";
+const triggerBase = "inline-flex w-fit items-center gap-1 text-sm font-medium";
 
 /**
  * The trigger for a Collapsible's panel. Renders our Button with
