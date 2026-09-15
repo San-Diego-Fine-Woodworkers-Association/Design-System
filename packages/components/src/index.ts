@@ -29,5 +29,10 @@ export {
   type CollapsibleTriggerProps,
 } from "./Molecules/Collapsible.js";
 export { FieldGroup, type FieldGroupProps } from "./Molecules/FieldGroup.js";
+export {
+  Notification,
+  type NotificationProps,
+  type NotificationVariant,
+} from "./Molecules/Notification.js";
 export { TextField, type TextFieldProps } from "./Molecules/TextField.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
