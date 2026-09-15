@@ -1,10 +1,106 @@
 @import "tailwindcss";
 
+/*
+ * Self-hosted Inter, Merriweather, and JetBrains Mono (SIL Open Font
+ * License 1.1). Latin subset only, matching this theme's
+ * --font-sans/--font-serif/--font-mono values, so consumers get working
+ * fonts from one `@import "@sdwa/tokens/theme.css"` with no per-framework
+ * font loader of their own. License text and copyright notices ship
+ * alongside the files in ./fonts/{inter,merriweather,jetbrains-mono}/OFL.txt.
+ */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/inter/Inter-Latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/inter/Inter-Latin-Italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/merriweather/Merriweather-Latin-400.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/merriweather/Merriweather-Latin-700.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Merriweather";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/merriweather/Merriweather-Latin-400-Italic.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Merriweather";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/merriweather/Merriweather-Latin-700-Italic.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/jetbrains-mono/JetBrainsMono-Latin.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./fonts/jetbrains-mono/JetBrainsMono-Latin-Italic.woff2")
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @custom-variant dark (&:is([data-theme="dark"] *));
 
 :root,
 [data-theme="light"] {
-  --background: oklch(0.9923 0.0025 48.7201);
+  --background: oklch(0.9699 0.0076 61.4535);
   --foreground: oklch(0.2435 0 0);
   --card: oklch(0.9911 0 0);
   --card-foreground: oklch(0.2435 0 0);
@@ -35,7 +131,7 @@
   --success-foreground: oklch(1 0 0);
   --info: oklch(0.451 0.1577 259.8102);
   --info-foreground: oklch(1 0 0);
-  --border: oklch(0.8822 0 0);
+  --border: oklch(0.7123 0.0046 17.2659);
   --input: oklch(0.8822 0 0);
   --ring: oklch(0.4341 0.0392 41.9938);
   --chart-1: oklch(0.5118 0.1006 59.9208);
@@ -98,7 +194,7 @@
   --success-foreground: oklch(0.1508 0 0);
   --info: oklch(0.7183 0.1276 254.6);
   --info-foreground: oklch(0.1476 0 0);
-  --border: oklch(0.2351 0.0115 91.7467);
+  --border: oklch(0.3701 0.0233 97.3084);
   --input: oklch(0.4017 0 0);
   --ring: oklch(0.9247 0.0524 66.1732);
   --chart-1: oklch(0.5118 0.1006 59.9208);
@@ -116,15 +212,10 @@
   --sidebar-ring: oklch(0.8711 0.0055 286.286);
 }
 
-/*
- * Per-context spacing/radius (SDF-12). app is tighter and less rounded
- * than content; the spacing gap is intentionally smaller than the radius
- * gap between the two contexts.
- */
 :root,
 [data-context="app"] {
   --spacing: 0.25rem;
-  --radius: 0.3rem;
+  --radius: 0.6rem;
 }
 
 [data-context="content"] {

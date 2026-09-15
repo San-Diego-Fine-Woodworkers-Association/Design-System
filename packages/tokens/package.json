@@ -27,7 +27,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && cp src/theme.css dist/theme.css",
+    "build": "tsup && cp src/theme.css dist/theme.css && rm -rf dist/fonts && cp -r src/fonts dist/fonts",
     "dev": "tsup --watch"
   },
   "peerDependencies": {
