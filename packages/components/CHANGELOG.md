@@ -1,5 +1,11 @@
 # @sdwa/components
 
+## 0.2.2
+
+### Patch Changes
+
+- e3b22ca: Fix `@sdwa/tokens` dependency published as `workspace:*`, which made 0.2.0 and 0.2.1 impossible to install. The dependency is now `^0.3.0`.
+
 ## 0.2.1
 
 ### Patch Changes
