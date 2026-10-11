@@ -119,7 +119,13 @@
   --muted-foreground: oklch(0.5032 0 0);
   --accent: oklch(0.9307 0.0266 65.6742);
   --accent-foreground: oklch(0.2435 0 0);
-  --destructive: oklch(0.6271 0.1936 33.339);
+  /*
+   * Darkened from oklch(0.6271 0.1936 33.339) for WCAG 2.2 AA (1.4.3): red
+   * text on --background was 3.54:1 and --destructive-foreground on
+   * --destructive 3.87:1. Now 4.88:1 (5.20:1 on --card/--popover) and
+   * 5.33:1. Same hue and chroma.
+   */
+  --destructive: oklch(0.55 0.1936 33.339);
   --destructive-foreground: oklch(1 0 0);
   /*
    * Notification-only colors (SDF-53 follow-up). Dedicated rather than
@@ -137,7 +143,12 @@
   --info: oklch(0.451 0.1577 259.8102);
   --info-foreground: oklch(1 0 0);
   --border: oklch(0.7123 0.0046 17.2659);
-  --input: oklch(0.8822 0 0);
+  /*
+   * Form-control border. Darkened from oklch(0.8822 0 0) (1.31:1 against
+   * --background) to meet WCAG 2.2 AA non-text contrast (1.4.11): now
+   * 3.20:1 on --background, 3.41:1 on --card.
+   */
+  --input: oklch(0.63 0 0);
   --ring: oklch(0.4341 0.0392 41.9938);
   --chart-1: oklch(0.5118 0.1006 59.9208);
   --chart-2: oklch(0.4527 0.0461 134.9703);

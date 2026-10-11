@@ -1,5 +1,7 @@
 export type ButtonVariant = "primary" | "secondary" | "destructive" | "quiet";
 
+export type ButtonSize = "default" | "large";
+
 export const buttonBase =
   "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium " +
   "transition-colors data-[hovered]:opacity-90 data-[pressed]:opacity-80 " +
@@ -11,4 +13,16 @@ export const buttonVariantStyles: Record<ButtonVariant, string> = {
   secondary: "bg-secondary text-secondary-foreground",
   destructive: "bg-destructive text-destructive-foreground",
   quiet: "bg-transparent text-foreground data-[hovered]:bg-accent",
+};
+
+/**
+ * Size overrides applied after buttonBase (tailwind-merge resolves the
+ * padding/font-size conflicts). `default` adds nothing, so buttonBase alone
+ * is still the default size. `large` is at least 48 px tall (a WCAG 2.5.5
+ * sized touch target) with larger text, for audiences who need bigger
+ * controls.
+ */
+export const buttonSizeStyles: Record<ButtonSize, string> = {
+  default: "",
+  large: "min-h-12 px-6 py-3 text-lg",
 };

@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@sdwa/tokens";
 import type { Preview } from "@storybook/react-vite";
 import "@sdwa/tokens/theme.css";
 
@@ -49,15 +50,17 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const { theme, context: dsContext } = context.globals;
+      // ThemeProvider (not a bare div) so overlays that portal to <body>
+      // (Modal, Popover) pick up the toolbar theme, as they do in AppLayout.
       return (
-        <div
-          data-theme={theme}
-          data-context={dsContext}
+        <ThemeProvider
+          theme={theme}
+          context={dsContext}
           className="bg-background text-foreground"
           style={{ padding: "1rem", minHeight: "100vh" }}
         >
           <Story />
-        </div>
+        </ThemeProvider>
       );
     },
   ],
