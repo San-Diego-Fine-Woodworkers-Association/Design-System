@@ -1,13 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button, type ButtonVariant } from "./Button.js";
+import { expect, within } from "storybook/test";
+import { Button, type ButtonSize, type ButtonVariant } from "./Button.js";
 
 const meta: Meta<typeof Button> = {
   component: Button,
   args: {
     children: "Button",
     variant: "primary",
+    size: "default",
   },
   argTypes: {
+    size: {
+      control: "radio",
+      options: ["default", "large"] satisfies ButtonSize[],
+    },
     variant: {
       control: "select",
       options: [
@@ -25,6 +31,39 @@ type Story = StoryObj<typeof Button>;
 
 /** Uses the Theme/Context toolbar controls (set up in SDF-23). */
 export const Playground: Story = {};
+
+/**
+ * `size="large"`: at least 48 px tall with `text-lg`, for audiences that
+ * need bigger touch targets. The default size is unchanged.
+ */
+export const Large: Story = {
+  args: { size: "large", children: "Choose photos and videos" },
+  play: async ({ canvasElement }) => {
+    const button = within(canvasElement).getByRole("button");
+    await expect(button.getBoundingClientRect().height).toBeGreaterThanOrEqual(
+      48,
+    );
+  },
+};
+
+/** Both sizes side by side, in every variant. */
+export const Sizes: Story = {
+  render: (args) => (
+    <div style={{ display: "grid", gap: "0.75rem", justifyItems: "start" }}>
+      {(["default", "large"] as const).map((size) => (
+        <div key={size} style={{ display: "flex", gap: "0.5rem" }}>
+          {(["primary", "secondary", "destructive", "quiet"] as const).map(
+            (variant) => (
+              <Button {...args} key={variant} size={size} variant={variant}>
+                {variant} ({size})
+              </Button>
+            ),
+          )}
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 const combinations = [
   { theme: "light", context: "app" },

@@ -3,8 +3,10 @@ import {
   type LinkProps as RACLinkProps,
 } from "react-aria-components";
 import {
+  type ButtonSize,
   type ButtonVariant,
   buttonBase,
+  buttonSizeStyles,
   buttonVariantStyles,
 } from "../utils/buttonStyles.js";
 import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
@@ -13,6 +15,8 @@ export type LinkVariant = ButtonVariant | "inline";
 
 export interface LinkProps extends RACLinkProps {
   variant?: LinkVariant;
+  /** Same sizes as Button. Ignored by the `inline` variant. */
+  size?: ButtonSize;
 }
 
 const inlineStyles =
@@ -27,11 +31,15 @@ const inlineStyles =
  * router's navigate function) to get client-side navigation for free,
  * without any changes here.
  */
-export function Link({ variant = "inline", ...props }: LinkProps) {
+export function Link({
+  variant = "inline",
+  size = "default",
+  ...props
+}: LinkProps) {
   const variantClassName =
     variant === "inline"
       ? inlineStyles
-      : `${buttonBase} ${buttonVariantStyles[variant]}`;
+      : `${buttonBase} ${buttonVariantStyles[variant]} ${buttonSizeStyles[size]}`;
 
   return (
     <RACLink

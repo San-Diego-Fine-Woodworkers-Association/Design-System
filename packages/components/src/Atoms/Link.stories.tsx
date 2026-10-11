@@ -37,3 +37,8 @@ export const Inline: Story = {
 export const PrimaryButtonStyled: Story = {
   args: { variant: "primary", children: "Log in" },
 };
+
+/** Button-styled links take the same `size` as Button. */
+export const LargeButtonStyled: Story = {
+  args: { variant: "primary", size: "large", children: "Renew my membership" },
+};

@@ -3,6 +3,7 @@
 export {
   Button,
   type ButtonProps,
+  type ButtonSize,
   type ButtonVariant,
 } from "./Atoms/Button.js";
 export { Description, type DescriptionProps } from "./Atoms/Description.js";
@@ -15,6 +16,8 @@ export {
   Modal,
   ModalOverlay,
   type ModalOverlayProps,
+  type ModalProps,
+  type ModalSize,
 } from "./Atoms/Modal.js";
 export { Popover, type PopoverProps } from "./Atoms/Popover.js";
 export {
@@ -42,5 +45,6 @@ export { AppLayout, type AppLayoutProps } from "./Organisms/AppLayout.js";
 export { Form, type FormProps } from "./Organisms/Form.js";
 export {
   buttonBase,
+  buttonSizeStyles,
   buttonVariantStyles,
 } from "./utils/buttonStyles.js";

@@ -4,18 +4,50 @@ import {
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 
-export interface LabelProps extends RACLabelProps {}
+export interface LabelProps extends RACLabelProps {
+  /**
+   * Whether to show the required indicator. Leave it unset inside a
+   * react-aria field (TextField, FieldGroup, Select, CheckboxGroup, ...):
+   * the indicator then follows the field's own `isRequired`. Set it for a
+   * label outside such a field, or `false` to hide the indicator.
+   */
+  isRequired?: boolean;
+}
+
+const indicatorBase = "ms-0.5 text-destructive";
 
 /**
  * Thin wrapper over react-aria-components' Label (SDF-17). Plain string
  * className (no interactive render states), same situation as Dialog —
  * merged with tailwind-merge directly, not composeTailwindRenderProps.
+ *
+ * Required indicator: react-aria fields put `data-required` on their root
+ * when `isRequired` is set, so the `*` is always rendered and only shown
+ * inside such a root (`in-data-required:`). It is `aria-hidden`: the input
+ * itself is announced as required, so screen readers don't also hear
+ * "star". Explain the `*` once on the page (e.g. "* means you need to fill
+ * this in"); that legend stays app copy.
  */
-export function Label(props: LabelProps) {
+export function Label({ isRequired, children, ...props }: LabelProps) {
+  const visibility =
+    isRequired === undefined
+      ? "hidden in-data-required:inline"
+      : isRequired
+        ? "inline"
+        : "hidden";
   return (
     <RACLabel
       {...props}
       className={twMerge("text-sm font-medium", props.className)}
-    />
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        data-slot="required-indicator"
+        className={`${indicatorBase} ${visibility}`}
+      >
+        *
+      </span>
+    </RACLabel>
   );
 }
