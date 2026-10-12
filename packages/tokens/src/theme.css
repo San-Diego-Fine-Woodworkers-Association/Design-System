@@ -298,6 +298,54 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
+/*
+ * `scrollbar-visible`: keep a scroll container's scrollbar on screen,
+ * instead of an overlay scrollbar that hides until you scroll, so it's
+ * clear the box scrolls. Opt-in, per element. Covers both axes.
+ *
+ * Each engine gets one mechanism, because Chromium 121+ ignores
+ * ::-webkit-scrollbar on an element whose scrollbar-width or
+ * scrollbar-color (which inherits) isn't `auto`:
+ * - Chromium and desktop Safari: ::-webkit-scrollbar with an explicit
+ *   size. The explicit size is what turns the macOS overlay scrollbar
+ *   into a permanent one. scrollbar-width/color are reset to `auto` so
+ *   an ancestor's scrollbar-color can't switch this off.
+ * - Firefox: the standard scrollbar-width/scrollbar-color.
+ * iOS Safari ignores custom scrollbar styling, so pair this with a
+ * non-scrollbar cue (see the README).
+ *
+ * Thumb is --muted-foreground on a --muted track: 5.34:1 light, 7.67:1
+ * dark (5.42:1 and 8.63:1 against --background).
+ */
+@utility scrollbar-visible {
+  @supports selector(::-webkit-scrollbar) {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+
+    &::-webkit-scrollbar {
+      width: 16px;
+      height: 16px;
+    }
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-corner {
+      background-color: var(--muted);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--muted-foreground);
+      background-clip: padding-box;
+      border: 3px solid transparent;
+      border-radius: 9999px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: var(--foreground);
+    }
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: auto;
+    scrollbar-color: var(--muted-foreground) var(--muted);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
