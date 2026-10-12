@@ -1,5 +1,12 @@
 # @sdwa/components
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [daec4d2]
+  - @sdwa/tokens@0.4.0
+
 ## 0.4.0
 
 ### Minor Changes
