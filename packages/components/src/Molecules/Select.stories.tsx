@@ -124,6 +124,92 @@ export const KeyboardAndAria: Story = {
   },
 };
 
+/**
+ * `size="large"`: the trigger and every option are at least 48 px tall
+ * with `text-lg`; the label is `text-lg`, and the description and error
+ * `text-base`. The SelectItems take the Select's size on their own.
+ */
+export const Large: Story = {
+  render: (args) => (
+    <Select
+      {...args}
+      size="large"
+      isRequired
+      isInvalid
+      description="Pick the closest one."
+      errorMessage="Choose an occasion."
+    >
+      <Options />
+    </Select>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const trigger = canvas.getByRole("button", {
+      name: /What was the occasion\?/,
+    });
+    await expect(trigger.getBoundingClientRect().height).toBeGreaterThanOrEqual(
+      48,
+    );
+    await expect(trigger).toHaveClass("min-h-12", "px-4", "text-lg");
+    await expect(canvas.getByText("What was the occasion?")).toHaveClass(
+      "text-lg",
+    );
+    await expect(canvas.getByText("Pick the closest one.")).toHaveClass(
+      "text-base",
+    );
+    await expect(canvas.getByText("Choose an occasion.")).toHaveClass(
+      "text-base",
+    );
+    await userEvent.click(trigger);
+    const listbox = await body.findByRole("listbox");
+    const options = within(listbox).getAllByRole("option");
+    await expect(options).toHaveLength(5);
+    for (const option of options) {
+      await expect(option).toHaveClass("min-h-12", "text-lg");
+      await expect(
+        option.getBoundingClientRect().height,
+      ).toBeGreaterThanOrEqual(48);
+    }
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByRole("listbox")).toBeNull());
+  },
+};
+
+/** No `size`: the trigger and options keep their original classes. */
+export const DefaultSizeUnchanged: Story = {
+  render: (args) => (
+    <Select {...args}>
+      <Options />
+    </Select>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const trigger = canvas.getByRole("button", {
+      name: /What was the occasion\?/,
+    });
+    await expect(trigger.className).toBe(
+      "flex w-full items-center justify-between gap-2 rounded-md border border-input bg-background " +
+        "px-3 py-2 text-start text-sm outline-none " +
+        "data-[focus-visible]:ring-2 data-[focus-visible]:ring-ring " +
+        "group-data-[invalid]:border-destructive " +
+        "group-data-[disabled]:pointer-events-none group-data-[disabled]:opacity-50",
+    );
+    await userEvent.click(trigger);
+    const listbox = await body.findByRole("listbox");
+    for (const option of within(listbox).getAllByRole("option")) {
+      await expect(option.className).toBe(
+        "flex min-h-11 cursor-default items-center gap-2 rounded-sm px-3 py-2 text-sm outline-none " +
+          "data-[focused]:bg-accent data-[focused]:text-accent-foreground " +
+          "data-[disabled]:opacity-50",
+      );
+    }
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByRole("listbox")).toBeNull());
+  },
+};
+
 const combinations = [
   { theme: "light", context: "app" },
   { theme: "light", context: "content" },

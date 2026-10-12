@@ -3,11 +3,19 @@ import {
   Checkbox as RACCheckbox,
   type CheckboxProps as RACCheckboxProps,
 } from "react-aria-components";
+import { twMerge } from "tailwind-merge";
 import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
+import { type FieldSize, useFieldSize } from "../utils/fieldSize.js";
 
 export interface CheckboxProps extends Omit<RACCheckboxProps, "children"> {
   /** The checkbox's label. Plain content (not a render prop). */
   children?: ReactNode;
+  /**
+   * `default` (the original `text-sm`, 20 px box) or `large` (each row at
+   * least 48 px tall, `text-lg`, 24 px box). Unset, it follows the nearest
+   * FieldSizeProvider or sized field (e.g. `<CheckboxGroup size="large">`).
+   */
+  size?: FieldSize;
 }
 
 const base =
@@ -24,6 +32,24 @@ const box =
   "group-data-[focus-visible]:ring-offset-2 group-data-[focus-visible]:ring-offset-background";
 
 /**
+ * Size overrides applied after base/box, like Input's. Large pads the
+ * whole label to at least 48 px tall, so the tap target (the entire
+ * `<label>`) meets WCAG 2.5.5 even for a one-line label, and nudges the
+ * 24 px box down to sit centred on the first 28 px line.
+ */
+const sizeStyles: Record<
+  FieldSize,
+  { base: string; box: string; icon: string }
+> = {
+  default: { base: "", box: "", icon: "size-3.5" },
+  large: {
+    base: "min-h-12 gap-3 py-2.5 text-lg",
+    box: "mt-0.5 size-6",
+    icon: "size-4",
+  },
+};
+
+/**
  * Thin wrapper over react-aria-components' Checkbox: a `<label>` around a
  * visually hidden native checkbox, so the whole label is the tap target and
  * keyboard (Space), form submission and ARIA come from react-aria. Use alone
@@ -33,15 +59,19 @@ const box =
  * after the label (hidden from screen readers, which already hear
  * "required").
  */
-export function Checkbox({ children, ...props }: CheckboxProps) {
+export function Checkbox({ children, size, ...props }: CheckboxProps) {
+  const styles = sizeStyles[useFieldSize(size)];
   return (
     <RACCheckbox
       {...props}
-      className={composeTailwindRenderProps(props.className, base)}
+      className={composeTailwindRenderProps(
+        props.className,
+        `${base} ${styles.base}`,
+      )}
     >
       {({ isSelected, isIndeterminate }) => (
         <>
-          <span className={box}>
+          <span className={twMerge(box, styles.box)}>
             {isIndeterminate ? (
               <svg
                 aria-hidden="true"
@@ -50,7 +80,7 @@ export function Checkbox({ children, ...props }: CheckboxProps) {
                 stroke="currentColor"
                 strokeWidth={3}
                 strokeLinecap="round"
-                className="size-3.5"
+                className={styles.icon}
               >
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -63,7 +93,7 @@ export function Checkbox({ children, ...props }: CheckboxProps) {
                 strokeWidth={3}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="size-3.5"
+                className={styles.icon}
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>

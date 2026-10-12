@@ -59,6 +59,46 @@ export const KeyboardAndAria: Story = {
   },
 };
 
+/**
+ * `size="large"` (here set on the TextField, which passes it on): at least
+ * 128 px tall with `text-lg`.
+ */
+export const Large: Story = {
+  render: () => (
+    <TextField name="notes" size="large" style={{ maxWidth: 360 }}>
+      <Label>Anything else we should know?</Label>
+      <TextArea />
+      <Description>Optional.</Description>
+      <FieldError />
+    </TextField>
+  ),
+  play: async ({ canvasElement }) => {
+    const textarea = within(canvasElement).getByRole("textbox", {
+      name: "Anything else we should know?",
+    });
+    await expect(
+      textarea.getBoundingClientRect().height,
+    ).toBeGreaterThanOrEqual(128);
+    await expect(textarea).toHaveClass("min-h-32", "px-4", "text-lg");
+  },
+};
+
+/** No `size`: the original classes, unchanged. */
+export const DefaultSizeUnchanged: Story = {
+  render: () => <TextAreaDemo />,
+  play: async ({ canvasElement }) => {
+    const textarea = within(canvasElement).getByRole("textbox", {
+      name: "Anything else we should know?",
+    });
+    await expect(textarea.className).toBe(
+      "min-h-24 resize-y rounded-md border border-input bg-background px-3 py-2 text-sm outline-none " +
+        "data-[focused]:ring-2 data-[focused]:ring-ring " +
+        "data-[invalid]:border-destructive " +
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+    );
+  },
+};
+
 const combinations = [
   { theme: "light", context: "app" },
   { theme: "light", context: "content" },

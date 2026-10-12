@@ -84,6 +84,69 @@ export const KeyboardAndAria: Story = {
   },
 };
 
+/**
+ * `size="large"` on the group sizes its label (`text-lg`), every Checkbox
+ * (each row at least 48 px tall), and the description and error
+ * (`text-base`).
+ */
+export const Large: Story = {
+  render: (args) => (
+    <CheckboxGroup
+      {...args}
+      size="large"
+      isRequired
+      isInvalid
+      errorMessage="Pick at least one."
+    >
+      <Options />
+    </CheckboxGroup>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("What's in them?")).toHaveClass("text-lg");
+    await expect(canvas.getByText("Pick all that apply.")).toHaveClass(
+      "text-base",
+    );
+    await expect(canvas.getByText("Pick at least one.")).toHaveClass(
+      "text-base",
+    );
+    for (const checkbox of canvas.getAllByRole("checkbox")) {
+      const label = checkbox.closest("label");
+      await expect(label).toHaveClass("min-h-12", "text-lg");
+      await expect(
+        label?.getBoundingClientRect().height,
+      ).toBeGreaterThanOrEqual(48);
+    }
+    await userEvent.click(canvas.getByText("Turning"));
+    await expect(
+      canvas.getByRole("checkbox", { name: "Turning" }),
+    ).toBeChecked();
+  },
+};
+
+/** No `size`: the options keep their original classes and spacing. */
+export const DefaultSizeUnchanged: Story = {
+  render: (args) => (
+    <CheckboxGroup {...args}>
+      <Options />
+    </CheckboxGroup>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("What's in them?").className).toBe(
+      "text-sm font-medium",
+    );
+    const label = canvas
+      .getByRole("checkbox", { name: "Furniture" })
+      .closest("label");
+    await expect(label?.className).toBe(
+      "group flex items-start gap-2 text-sm " +
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+    );
+    await expect(label?.parentElement?.className).toBe("flex flex-col gap-3");
+  },
+};
+
 const combinations = [
   { theme: "light", context: "app" },
   { theme: "light", context: "content" },

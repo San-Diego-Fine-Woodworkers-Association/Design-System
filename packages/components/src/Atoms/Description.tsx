@@ -3,8 +3,24 @@ import {
   type TextProps as RACTextProps,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
+import { type FieldSize, useFieldSize } from "../utils/fieldSize.js";
 
-export interface DescriptionProps extends RACTextProps {}
+export interface DescriptionProps extends RACTextProps {
+  /**
+   * `default` (`text-xs`) or `large` (`text-base`). Unset, it follows the
+   * nearest FieldSizeProvider or sized field (e.g. `<TextField
+   * size="large">`).
+   */
+  size?: FieldSize;
+}
+
+const base = "text-xs text-muted-foreground";
+
+/** Size overrides applied after base, like Input's. */
+const sizeStyles: Record<FieldSize, string> = {
+  default: "",
+  large: "text-base",
+};
 
 /**
  * Thin wrapper over react-aria-components' Text, defaulted to
@@ -14,13 +30,18 @@ export interface DescriptionProps extends RACTextProps {}
  */
 export function Description({
   slot = "description",
+  size,
   ...props
 }: DescriptionProps) {
+  const resolvedSize = useFieldSize(size);
   return (
     <RACText
       {...props}
       slot={slot}
-      className={twMerge("text-xs text-muted-foreground", props.className)}
+      className={twMerge(
+        `${base} ${sizeStyles[resolvedSize]}`,
+        props.className,
+      )}
     />
   );
 }
