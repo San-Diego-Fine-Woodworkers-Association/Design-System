@@ -24,7 +24,8 @@ import { Button } from "@sdwa/components";
 Every form field takes `size="large"`: controls and options at least 48 px tall (a WCAG 2.5.5
 touch target) with `text-lg`, labels `text-lg`, descriptions and errors `text-base`. To make every
 field in a form or app large, wrap it once in `FieldSizeProvider`; a field's own `size` still
-wins.
+wins. Buttons, button-look Links and FilePickerButtons with no `size` follow the provider too, and
+a large Button is the same 48 px as a large Input.
 
 ```tsx
 import { FieldSizeProvider } from "@sdwa/components";

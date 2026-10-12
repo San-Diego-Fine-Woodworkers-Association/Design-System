@@ -17,8 +17,9 @@ export interface FieldSizeProviderProps {
 /**
  * Sets the size of every form field below it (Input, TextArea, Select,
  * SelectItem, Checkbox, CheckboxGroup, TextField, FieldGroup, Label,
- * Description, FieldError), so a whole form or app can go large without a
- * `size` on each field. Renders no element. A field's own `size` prop
+ * Description, FieldError), and every Button, button-look Link and
+ * FilePickerButton, so a whole form or app can go large without a `size`
+ * on each one. Renders no element. A field's own `size` prop
  * still wins, and a field with `size` passes it on to its parts (e.g.
  * `<TextField size="large">` makes its Label, Input, Description and
  * FieldError large).

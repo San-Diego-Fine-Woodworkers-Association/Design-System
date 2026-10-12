@@ -10,12 +10,16 @@ import {
   buttonVariantStyles,
 } from "../utils/buttonStyles.js";
 import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
+import { useFieldSize } from "../utils/fieldSize.js";
 
 export type LinkVariant = ButtonVariant | "inline";
 
 export interface LinkProps extends RACLinkProps {
   variant?: LinkVariant;
-  /** Same sizes as Button. Ignored by the `inline` variant. */
+  /**
+   * Same sizes as Button, and like Button it follows the nearest
+   * FieldSizeProvider when unset. Ignored by the `inline` variant.
+   */
   size?: ButtonSize;
 }
 
@@ -31,15 +35,12 @@ const inlineStyles =
  * router's navigate function) to get client-side navigation for free,
  * without any changes here.
  */
-export function Link({
-  variant = "inline",
-  size = "default",
-  ...props
-}: LinkProps) {
+export function Link({ variant = "inline", size, ...props }: LinkProps) {
+  const resolvedSize = useFieldSize(size);
   const variantClassName =
     variant === "inline"
       ? inlineStyles
-      : `${buttonBase} ${buttonVariantStyles[variant]} ${buttonSizeStyles[size]}`;
+      : `${buttonBase} ${buttonVariantStyles[variant]} ${buttonSizeStyles[resolvedSize]}`;
 
   return (
     <RACLink

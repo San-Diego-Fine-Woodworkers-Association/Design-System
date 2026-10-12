@@ -91,7 +91,8 @@ export const Login: Story = {
  * field below it large with no `size` on the fields (wrap the app in it to
  * go large everywhere). A field's own `size` still wins, and passes on to
  * its parts: the "Member ID" field and the "Shop" group opt back out with
- * `size="default"`. Buttons keep their own `size` prop.
+ * `size="default"`. The submit Button follows the provider too, at the
+ * same 48 px as the fields.
  */
 export const LargeFields: Story = {
   render: () => (
@@ -131,9 +132,7 @@ export const LargeFields: Story = {
         <Checkbox isRequired name="permission">
           I have permission to share them
         </Checkbox>
-        <Button type="submit" size="large">
-          Upload
-        </Button>
+        <Button type="submit">Upload</Button>
       </Form>
     </FieldSizeProvider>
   ),
@@ -181,6 +180,12 @@ export const LargeFields: Story = {
       .closest("label");
     await expect(permission).toHaveClass("min-h-12", "text-lg");
     await atLeast48(permission);
+
+    const upload = canvas.getByRole("button", { name: "Upload" });
+    await expect(upload).toHaveClass("min-h-12", "text-lg");
+    await expect(upload.getBoundingClientRect().height).toBe(
+      title.getBoundingClientRect().height,
+    );
 
     // Opted out with size="default": back to the original classes.
     const member = canvas.getByRole("textbox", { name: "Member ID" });

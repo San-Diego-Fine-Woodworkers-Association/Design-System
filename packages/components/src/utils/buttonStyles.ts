@@ -18,11 +18,12 @@ export const buttonVariantStyles: Record<ButtonVariant, string> = {
 /**
  * Size overrides applied after buttonBase (tailwind-merge resolves the
  * padding/font-size conflicts). `default` adds nothing, so buttonBase alone
- * is still the default size. `large` is at least 48 px tall (a WCAG 2.5.5
- * sized touch target) with larger text, for audiences who need bigger
- * controls.
+ * is still the default size. `large` is exactly 48 px tall (a WCAG 2.5.5
+ * sized touch target, `min-h-12` with padding that never exceeds it), the
+ * same height as a large Input, Select trigger and SelectItem, with larger
+ * text, for audiences who need bigger controls.
  */
 export const buttonSizeStyles: Record<ButtonSize, string> = {
   default: "",
-  large: "min-h-12 px-6 py-3 text-lg",
+  large: "min-h-12 px-6 py-2 text-lg",
 };
