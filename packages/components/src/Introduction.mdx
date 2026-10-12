@@ -8,3 +8,12 @@ React Aria-based component library for SDFWA's frontend projects.
 
 Use the **Theme** and **Context** toolbar controls above to preview components
 across all four `data-theme` x `data-context` combinations.
+
+## Large form fields
+
+Every form field (Input, TextArea, Select, SelectItem, Checkbox, CheckboxGroup,
+TextField, FieldGroup, Label, Description, FieldError) takes `size="large"`:
+targets at least 48 px tall and larger text. Wrap a form or the whole app in
+`<FieldSizeProvider size="large">` to make every field below it large, along
+with Buttons, button-look Links and FilePickerButtons that have no `size` of
+their own; a component's own `size` still wins. See **Organisms/Form → Large Fields**.

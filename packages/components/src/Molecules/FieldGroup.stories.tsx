@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, within } from "storybook/test";
 import { FieldGroup } from "./FieldGroup.js";
 
 const meta: Meta<typeof FieldGroup> = {
@@ -51,4 +52,33 @@ export const LoginForm: Story = {
       />
     </div>
   ),
+};
+
+/**
+ * `size="large"`: the Input is at least 48 px tall with `text-lg`, the
+ * Label `text-lg` and the error `text-base`.
+ */
+export const Large: Story = {
+  render: () => (
+    <FieldGroup
+      label="Email"
+      name="email"
+      size="large"
+      isInvalid
+      errorMessage="Enter a valid email address."
+      inputProps={{ type: "email", defaultValue: "not-an-email" }}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("textbox", { name: "Email" });
+    await expect(input.getBoundingClientRect().height).toBeGreaterThanOrEqual(
+      48,
+    );
+    await expect(input).toHaveClass("min-h-12", "text-lg");
+    await expect(canvas.getByText("Email")).toHaveClass("text-lg");
+    await expect(canvas.getByText("Enter a valid email address.")).toHaveClass(
+      "text-base",
+    );
+  },
 };

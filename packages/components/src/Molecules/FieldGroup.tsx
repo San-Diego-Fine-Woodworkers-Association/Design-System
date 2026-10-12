@@ -3,6 +3,7 @@ import type { TextFieldProps as RACTextFieldProps } from "react-aria-components"
 import { FieldError, type FieldErrorProps } from "../Atoms/FieldError.js";
 import { Input, type InputProps } from "../Atoms/Input.js";
 import { Label } from "../Atoms/Label.js";
+import type { FieldSize } from "../utils/fieldSize.js";
 import { TextField } from "./TextField.js";
 
 export interface FieldGroupProps extends Omit<RACTextFieldProps, "children"> {
@@ -24,6 +25,13 @@ export interface FieldGroupProps extends Omit<RACTextFieldProps, "children"> {
    * rendered with `inputProps`.
    */
   children?: ReactNode;
+  /**
+   * `default` or `large` (the Input at least 48 px tall, with `text-lg`
+   * input and label). Passed to the inner TextField, so it applies to the
+   * Label, Input and FieldError. Unset, it follows the nearest
+   * FieldSizeProvider.
+   */
+  size?: FieldSize;
 }
 
 /**
@@ -40,10 +48,11 @@ export function FieldGroup({
   errorMessage,
   inputProps,
   children,
+  size,
   ...textFieldProps
 }: FieldGroupProps) {
   return (
-    <TextField {...textFieldProps}>
+    <TextField {...textFieldProps} size={size}>
       <Label>{label}</Label>
       {children ?? <Input {...inputProps} />}
       <FieldError>{errorMessage}</FieldError>

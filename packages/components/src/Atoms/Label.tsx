@@ -3,6 +3,7 @@ import {
   type LabelProps as RACLabelProps,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
+import { type FieldSize, useFieldSize } from "../utils/fieldSize.js";
 
 export interface LabelProps extends RACLabelProps {
   /**
@@ -12,7 +13,21 @@ export interface LabelProps extends RACLabelProps {
    * label outside such a field, or `false` to hide the indicator.
    */
   isRequired?: boolean;
+  /**
+   * `default` (`text-sm`) or `large` (`text-lg`, matching the large
+   * controls). Unset, it follows the nearest FieldSizeProvider or sized
+   * field (e.g. `<TextField size="large">`).
+   */
+  size?: FieldSize;
 }
+
+const base = "text-sm font-medium";
+
+/** Size overrides applied after base, like Input's. */
+const sizeStyles: Record<FieldSize, string> = {
+  default: "",
+  large: "text-lg",
+};
 
 const indicatorBase = "ms-0.5 text-destructive";
 
@@ -28,7 +43,8 @@ const indicatorBase = "ms-0.5 text-destructive";
  * "star". Explain the `*` once on the page (e.g. "* means you need to fill
  * this in"); that legend stays app copy.
  */
-export function Label({ isRequired, children, ...props }: LabelProps) {
+export function Label({ isRequired, size, children, ...props }: LabelProps) {
+  const resolvedSize = useFieldSize(size);
   const visibility =
     isRequired === undefined
       ? "hidden in-data-required:inline"
@@ -38,7 +54,10 @@ export function Label({ isRequired, children, ...props }: LabelProps) {
   return (
     <RACLabel
       {...props}
-      className={twMerge("text-sm font-medium", props.className)}
+      className={twMerge(
+        `${base} ${sizeStyles[resolvedSize]}`,
+        props.className,
+      )}
     >
       {children}
       <span

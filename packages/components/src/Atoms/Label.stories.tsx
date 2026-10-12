@@ -73,3 +73,31 @@ export const ExplicitOverride: Story = {
     await expect(indicators[1]).not.toBeVisible();
   },
 };
+
+/**
+ * `size="large"` gives `text-lg`, matching the large controls. Inside a
+ * large field the Label follows the field, unless it sets its own `size`.
+ */
+export const Large: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <Label size="large">Large on its own</Label>
+      <TextField name="email" size="large">
+        <Label>Follows its field</Label>
+        <Input type="email" />
+      </TextField>
+      <TextField name="phone" size="large">
+        <Label size="default">Opts out</Label>
+        <Input type="tel" />
+      </TextField>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Large on its own")).toHaveClass("text-lg");
+    await expect(canvas.getByText("Follows its field")).toHaveClass("text-lg");
+    await expect(canvas.getByText("Opts out").className).toBe(
+      "text-sm font-medium",
+    );
+  },
+};

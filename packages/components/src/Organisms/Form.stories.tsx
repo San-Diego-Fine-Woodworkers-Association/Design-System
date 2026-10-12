@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../Atoms/Button.js";
+import { Checkbox } from "../Atoms/Checkbox.js";
 import { Description } from "../Atoms/Description.js";
 import { FieldError } from "../Atoms/FieldError.js";
 import { Input } from "../Atoms/Input.js";
 import { Label } from "../Atoms/Label.js";
+import { TextArea } from "../Atoms/TextArea.js";
 import { Card, CardContent } from "../Molecules/Card.js";
+import { CheckboxGroup } from "../Molecules/CheckboxGroup.js";
 import { FieldGroup } from "../Molecules/FieldGroup.js";
+import { Select, SelectItem } from "../Molecules/Select.js";
 import { TextField } from "../Molecules/TextField.js";
+import { FieldSizeProvider } from "../utils/fieldSize.js";
 import { Form } from "./Form.js";
 
 const meta: Meta<typeof Form> = {
@@ -78,6 +84,119 @@ export const Login: Story = {
       </CardContent>
     </Card>
   ),
+};
+
+/**
+ * One switch for a whole form: `FieldSizeProvider size="large"` makes every
+ * field below it large with no `size` on the fields (wrap the app in it to
+ * go large everywhere). A field's own `size` still wins, and passes on to
+ * its parts: the "Member ID" field and the "Shop" group opt back out with
+ * `size="default"`. The submit Button follows the provider too, at the
+ * same 48 px as the fields.
+ */
+export const LargeFields: Story = {
+  render: () => (
+    <FieldSizeProvider size="large">
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        style={{ maxWidth: "28rem" }}
+      >
+        <TextField name="title" isRequired>
+          <Label>Title</Label>
+          <Input />
+          <Description>A few words people will search for.</Description>
+          <FieldError />
+        </TextField>
+        <TextField name="taken">
+          <Label>Date taken</Label>
+          <Input type="date" />
+        </TextField>
+        <Select label="What was the occasion?" placeholder="Choose…">
+          <SelectItem id="meeting">General meeting</SelectItem>
+          <SelectItem id="fair">San Diego County Fair</SelectItem>
+        </Select>
+        <CheckboxGroup label="What's in them?">
+          <Checkbox value="furniture">Furniture</Checkbox>
+          <Checkbox value="turning">Turning</Checkbox>
+        </CheckboxGroup>
+        <TextField name="notes">
+          <Label>Anything else we should know?</Label>
+          <TextArea />
+        </TextField>
+        <FieldGroup label="Member ID" name="member" size="default" />
+        <CheckboxGroup label="Shop" size="default">
+          <Checkbox value="garage">Garage</Checkbox>
+        </CheckboxGroup>
+        <Checkbox isRequired name="permission">
+          I have permission to share them
+        </Checkbox>
+        <Button type="submit">Upload</Button>
+      </Form>
+    </FieldSizeProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const atLeast48 = (el: Element | null | undefined) =>
+      expect(el?.getBoundingClientRect().height).toBeGreaterThanOrEqual(48);
+
+    const title = canvas.getByRole("textbox", { name: "Title" });
+    await expect(title).toHaveClass("min-h-12", "text-lg");
+    await atLeast48(title);
+    await expect(canvas.getByText("Title")).toHaveClass("text-lg");
+    await expect(
+      canvas.getByText("A few words people will search for."),
+    ).toHaveClass("text-base");
+    const date = canvasElement.querySelector('input[type="date"]');
+    await expect(date).toHaveClass("min-h-12", "text-lg");
+    await atLeast48(date);
+    const notes = canvas.getByRole("textbox", {
+      name: "Anything else we should know?",
+    });
+    await expect(notes).toHaveClass("min-h-32", "text-lg");
+
+    const trigger = canvas.getByRole("button", {
+      name: /What was the occasion\?/,
+    });
+    await atLeast48(trigger);
+    await userEvent.click(trigger);
+    const listbox = await body.findByRole("listbox");
+    for (const option of within(listbox).getAllByRole("option")) {
+      await expect(option).toHaveClass("min-h-12", "text-lg");
+      await atLeast48(option);
+    }
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByRole("listbox")).toBeNull());
+
+    for (const name of ["Furniture", "Turning"]) {
+      const label = canvas.getByRole("checkbox", { name }).closest("label");
+      await expect(label).toHaveClass("min-h-12", "text-lg");
+      await atLeast48(label);
+    }
+    const permission = canvas
+      .getByRole("checkbox", { name: "I have permission to share them" })
+      .closest("label");
+    await expect(permission).toHaveClass("min-h-12", "text-lg");
+    await atLeast48(permission);
+
+    const upload = canvas.getByRole("button", { name: "Upload" });
+    await expect(upload).toHaveClass("min-h-12", "text-lg");
+    await expect(upload.getBoundingClientRect().height).toBe(
+      title.getBoundingClientRect().height,
+    );
+
+    // Opted out with size="default": back to the original classes.
+    const member = canvas.getByRole("textbox", { name: "Member ID" });
+    await expect(member).toHaveClass("text-sm");
+    await expect(member).not.toHaveClass("min-h-12");
+    await expect(canvas.getByText("Member ID")).toHaveClass("text-sm");
+    await expect(canvas.getByText("Shop")).not.toHaveClass("text-lg");
+    await expect(
+      canvas.getByRole("checkbox", { name: "Garage" }).closest("label"),
+    ).not.toHaveClass("min-h-12");
+  },
 };
 
 const combinations = [
