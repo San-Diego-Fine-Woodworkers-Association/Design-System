@@ -48,7 +48,10 @@ export {
 } from "./Molecules/FilePickerButton.js";
 export {
   Notification,
+  type NotificationPoliteness,
   type NotificationProps,
+  NotificationRegion,
+  type NotificationRegionProps,
   type NotificationVariant,
 } from "./Molecules/Notification.js";
 export {

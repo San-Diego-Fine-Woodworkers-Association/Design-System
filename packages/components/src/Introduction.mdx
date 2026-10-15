@@ -16,4 +16,12 @@ TextField, FieldGroup, Label, Description, FieldError) takes `size="large"`:
 targets at least 48 px tall and larger text. Wrap a form or the whole app in
 `<FieldSizeProvider size="large">` to make every field below it large, along
 with Buttons, button-look Links and FilePickerButtons that have no `size` of
-their own; a component's own `size` still wins. See **Organisms/Form → Large Fields**.
+their own, and the text of Notification and ProgressBar; a component's own
+`size` still wins. See **Organisms/Form → Large Fields**.
+
+## Notifications that appear later
+
+A Notification that appears while the page is open (offline, busy, an error
+after an action) goes inside a `NotificationRegion` mounted with the page, so
+screen readers hear it: they announce changes to a live region they already
+know about. See **Molecules/Notification → In Region**.
