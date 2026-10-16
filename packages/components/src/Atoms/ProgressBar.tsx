@@ -4,6 +4,7 @@ import {
   type ProgressBarProps as RACProgressBarProps,
 } from "react-aria-components";
 import { composeTailwindRenderProps } from "../utils/composeTailwindRenderProps.js";
+import { type FieldSize, useFieldSize } from "../utils/fieldSize.js";
 import { Label } from "./Label.js";
 
 export interface ProgressBarProps extends RACProgressBarProps {
@@ -14,9 +15,22 @@ export interface ProgressBarProps extends RACProgressBarProps {
   label?: ReactNode;
   /** Show the value text (e.g. "40%") next to the label. Defaults to true. */
   showValueText?: boolean;
+  /**
+   * `default` (`text-sm` label and value, the original size) or `large`
+   * (`text-lg`, matching the large form fields' labels). Unset, it follows
+   * the nearest FieldSizeProvider or sized field; outside one it is
+   * `default`.
+   */
+  size?: FieldSize;
 }
 
 const base = "flex w-full flex-col gap-1";
+
+/** Label-row text size; the Label inside follows the same size. */
+const rowSizeStyles: Record<FieldSize, string> = {
+  default: "text-sm",
+  large: "text-lg",
+};
 
 /**
  * Thin wrapper over react-aria-components' ProgressBar: role="progressbar"
@@ -30,8 +44,10 @@ const base = "flex w-full flex-col gap-1";
 export function ProgressBar({
   label,
   showValueText = true,
+  size,
   ...props
 }: ProgressBarProps) {
+  const resolvedSize = useFieldSize(size);
   return (
     <RACProgressBar
       {...props}
@@ -40,10 +56,15 @@ export function ProgressBar({
       {({ percentage, valueText, isIndeterminate }) => (
         <>
           {(label || (showValueText && !isIndeterminate)) && (
-            <div className="flex justify-between gap-2 text-sm">
-              {label ? <Label>{label}</Label> : <span />}
+            <div
+              className={`flex justify-between gap-2 ${rowSizeStyles[resolvedSize]}`}
+            >
+              {label ? <Label size={resolvedSize}>{label}</Label> : <span />}
               {showValueText && !isIndeterminate && (
-                <span className="text-muted-foreground tabular-nums">
+                <span
+                  data-slot="progress-value"
+                  className="text-muted-foreground tabular-nums"
+                >
                   {valueText}
                 </span>
               )}
